@@ -51,9 +51,10 @@ class TakeOfferSerializer(serializers.ModelSerializer):
     latitude = serializers.SerializerMethodField()
     longitude = serializers.SerializerMethodField()
     taker_name = serializers.SerializerMethodField()
+    offer_taken = serializers.SerializerMethodField()
     class Meta:
         model = models.TakeOffer
-        fields = ('id', 'taker_name','note_from_taker', 'offer_status', 'pickup_timeslots', 'latitude', 'longitude')
+        fields = ('id', 'taker_name','offer_taken','note_from_taker', 'offer_status', 'pickup_timeslot', 'latitude', 'longitude')
 
     def get_latitude(self,obj):
         self.latitude = obj.taker.location.get_coords()[0]
@@ -66,3 +67,28 @@ class TakeOfferSerializer(serializers.ModelSerializer):
     def get_taker_name(self,obj):
         self.taker_name = obj.taker.user.username
         return self.taker_name
+    def get_offer_taken(self,obj):
+        self.offer_taken = obj.offer_taken.item_name
+        return self.offer_taken
+    
+"""    
+class OfferApprovalSerializer(serializers.ModelSerializer):
+    giver_name = serializers.SerializerMethodField()
+    class Meta:
+        model = models.GiveOffer
+        fields = ('giver_name','accepted_taker','offer_status')
+        
+    def get_giver_name(self,obj):
+        self.giver_name = obj.giver.user.username
+        return self.giver_name
+    
+"""    
+    
+    
+    
+    
+    
+    
+    
+    
+    

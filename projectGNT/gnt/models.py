@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import JSONField
 from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
-STATUS_CHOICES = (('p', 'pending'),('a', 'accepted'),('r','rejected'))
+STATUS_CHOICES = (('pending', 'pending'),('accepted', 'accepted'),('rejected','rejected'))
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -23,14 +23,17 @@ class GiveOffer(models.Model):
     offer_started_date = models.DateTimeField()
     offer_end_date = models.DateTimeField()
     note_on_offer = models.TextField()
+    offer_status = models.CharField(choices = STATUS_CHOICES, max_length=200,blank=True)
+    accepted_taker =models.ForeignKey("Takeoffer",blank=True,null=True)
     properties = JSONField()
     def __str__(self):
        return  self.item_name
 
 class TakeOffer(models.Model):
     taker = models.ForeignKey(Profile)
+    offer_taken = models.ForeignKey(GiveOffer,null=True)
     note_from_taker = models.CharField(max_length=200)   
-    offer_status =  models.CharField(choices = STATUS_CHOICES, max_length=200)
-    reason = models.CharField(max_length=500)    
-    pickup_timeslots = ArrayField(models.DateField(max_length=200))
-   
+    offer_status =  models.CharField(choices = STATUS_CHOICES, max_length=200)    
+    pickup_timeslot = JSONField()
+    def __str__(self):
+        return  self.taker.user.username

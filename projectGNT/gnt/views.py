@@ -49,6 +49,12 @@ class GiveOfferDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = GiveOffer.objects.all()
     serializer_class = serializers.GiveOfferSerializer
 
+
+class TakeOfferList(generics.ListCreateAPIView):
+    queryset = TakeOffer.objects.all()
+    serializer_class = serializers.TakeOfferSerializer
+    
+
 class TakeOfferDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = TakeOffer.objects.all()
     serializer_class = serializers.TakeOfferSerializer
@@ -57,7 +63,11 @@ class TakeOfferDetails(generics.RetrieveUpdateDestroyAPIView):
 class ProfileList(generics.ListCreateAPIView):
     queryset =  Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
-  
+"""  
+class OfferApproval(generics.ListCreateAPIView):
+    queryset = GiveOffer.objects.all()
+    serializer_class = serializers.OfferApprovalSerializer
+""" 
     
 
     
